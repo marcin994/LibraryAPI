@@ -4,6 +4,7 @@
 
 **Added:**
 - Change log
+- Gson library to serialize and deserialize json objects
 
 ## v0.2.1 25.10.2018
 

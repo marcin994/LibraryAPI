@@ -29,4 +29,5 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     runtime('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    compile 'com.google.code.gson:gson:2.8.2'
 }
