@@ -1,6 +1,6 @@
 # LibraryAPI
 
-**Version 0.2.2** - [Change log](CHANGELOG.md)
+**Version 0.3.0** - [Change log](CHANGELOG.md)
 
 ##### PL
 Projekt API przeznaczony do obsługi wykorzystania zasobów bibliotecznych. 
