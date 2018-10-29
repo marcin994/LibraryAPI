@@ -1,5 +1,13 @@
 # Change log
 
+## v0.3.0 29.10.2018
+
+**Added:**
+- Registration 
+
+**Changed:**
+- Finish login process
+
 ## v0.2.2 28.10.2018
 
 **Added:**
