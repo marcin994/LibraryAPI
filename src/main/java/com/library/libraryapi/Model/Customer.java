@@ -7,7 +7,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class CustomerModel {
+public class Customer {
 
     @Id
     @GeneratedValue
@@ -26,7 +26,7 @@ public class CustomerModel {
     private String email;
 
     @OneToOne
-    private AddressModel address;
+    private Address address;
 
     public long getId() {
         return id;
@@ -84,17 +84,17 @@ public class CustomerModel {
         this.email = email;
     }
 
-    public AddressModel getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressModel address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
     @Override
     public String toString() {
-        return "CustomerModel{" +
+        return "Customer{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

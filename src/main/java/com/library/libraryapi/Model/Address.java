@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class AddressModel {
+public class Address {
 
     @Id
     @GeneratedValue
@@ -78,7 +78,7 @@ public class AddressModel {
 
     @Override
     public String toString() {
-        return "AddressModel{" +
+        return "Address{" +
                 "id=" + id +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +

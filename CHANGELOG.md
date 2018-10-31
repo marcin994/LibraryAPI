@@ -1,5 +1,14 @@
 # Change log
 
+## v0.3.1 31.10.2018
+
+**Added:**
+- Model for Dictionary and DictionaryItem
+- Endpoint to get list of available dictionaries and collection of dictionaryItems from specific domain
+
+**Changed:**
+- Refactor model names
+
 ## v0.3.0 29.10.2018
 
 **Added:**

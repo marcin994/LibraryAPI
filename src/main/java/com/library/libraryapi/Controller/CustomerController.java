@@ -3,7 +3,7 @@ package com.library.libraryapi.Controller;
 import com.google.gson.Gson;
 import com.library.libraryapi.DAO.AddressRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
-import com.library.libraryapi.Model.CustomerModel;
+import com.library.libraryapi.Model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class CustomerController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<String> login(@RequestParam("login") String login, @RequestParam("password") String password) {
 
-        CustomerModel customer = customerRepository.findByLoginAndPassword(login, password);
+        Customer customer = customerRepository.findByLoginAndPassword(login, password);
 
         if (customer == null) {
 
@@ -48,7 +48,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<String> register(@RequestBody CustomerModel customerModel) {
+    public ResponseEntity<String> register(@RequestBody Customer customerModel) {
 
         if (customerModel == null) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorrect data"));
@@ -68,7 +68,7 @@ public class CustomerController {
 
         addressRepository.save(customerModel.getAddress());
         customerRepository.save(customerModel);
-        CustomerModel cM = customerRepository.findByLogin(customerModel.getLogin());
+        Customer cM = customerRepository.findByLogin(customerModel.getLogin());
 
         if (cM == null) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Server error"));
