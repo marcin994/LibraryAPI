@@ -1,5 +1,12 @@
 # Change log
 
+## v0.3.2 3.11.2018
+
+**Added:**
+- Model for Resources
+- Dictionary items for Language
+- Endpoint to get list of static resources, list of static resources in selected language, list of resource in every languages, single resource in selected language
+
 ## v0.3.1 31.10.2018
 
 **Added:**
