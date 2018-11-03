@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DictionaryItemRepository extends CrudRepository<DictionaryItem, Long> {
     List<DictionaryItem> findAllByDomain(String domain);
+    DictionaryItem findByDomainAndCode(String domain, String code);
 }

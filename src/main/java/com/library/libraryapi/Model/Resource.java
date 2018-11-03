@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Resources {
+public class Resource {
 
     @Id
     @GeneratedValue
@@ -56,7 +56,7 @@ public class Resources {
 
     @Override
     public String toString() {
-        return "Resources{" +
+        return "Resource{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", languageCode='" + languageCode + '\'' +
