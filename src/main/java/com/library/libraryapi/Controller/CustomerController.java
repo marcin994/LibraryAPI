@@ -3,6 +3,7 @@ package com.library.libraryapi.Controller;
 import com.google.gson.Gson;
 import com.library.libraryapi.DAO.AddressRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
+import com.library.libraryapi.DAO.DictionaryItemRepository;
 import com.library.libraryapi.Model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,14 +18,18 @@ public class CustomerController {
 
     private final CustomerRepository customerRepository;
     private final AddressRepository addressRepository;
+    private final DictionaryItemRepository dictionaryItemRepository;
     private HttpHeaders headers;
 
     @Autowired
-    public CustomerController(CustomerRepository customerRepository, AddressRepository addressRepository) {
+    public CustomerController(CustomerRepository customerRepository,
+                              AddressRepository addressRepository,
+                              DictionaryItemRepository dictionaryItemRepository) {
         this.headers = new HttpHeaders();
         this.headers.setContentType(MediaType.APPLICATION_JSON);
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
+        this.dictionaryItemRepository = dictionaryItemRepository;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -66,7 +71,16 @@ public class CustomerController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Login is already used"));
         }
 
-        addressRepository.save(customerModel.getAddress());
+        if (customerModel.getAccountType() == null || customerModel.getAccountType().isEmpty()) {
+            customerModel.setAccountType("USER");
+        } else if (dictionaryItemRepository.findByDomainAndCode("ROLE", customerModel.getAccountType()) == null){
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorrect role type"));
+        }
+
+        if (customerModel.getAddress() != null) {
+            addressRepository.save(customerModel.getAddress());
+        }
+
         customerRepository.save(customerModel);
         Customer cM = customerRepository.findByLogin(customerModel.getLogin());
 

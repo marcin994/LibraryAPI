@@ -20,6 +20,9 @@ public class Customer {
     @NotNull
     private String password;
 
+    @NotNull
+    private String accountType;
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -92,12 +95,21 @@ public class Customer {
         this.address = address;
     }
 
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", accountType='" + accountType + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
