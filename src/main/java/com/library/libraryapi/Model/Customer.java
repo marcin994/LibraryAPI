@@ -27,6 +27,7 @@ public class Customer {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private boolean isDeleted;
 
     @OneToOne
     private Address address;
@@ -99,6 +100,14 @@ public class Customer {
         return accountType;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
@@ -114,6 +123,7 @@ public class Customer {
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", isDeleted=" + isDeleted +
                 ", address=" + address +
                 '}';
     }

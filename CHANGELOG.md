@@ -1,5 +1,13 @@
 # Change log
 
+## v0.5.2 4.11.2018
+
+**Added:**
+- Ability to remove users accounts
+
+**Changed:**
+- Login only when account is not deleted
+
 ## v0.5.1 4.11.2018
 
 **Added:**

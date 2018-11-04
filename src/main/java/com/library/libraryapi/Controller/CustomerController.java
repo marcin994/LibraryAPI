@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 public class CustomerController {
@@ -20,6 +22,7 @@ public class CustomerController {
     private final AddressRepository addressRepository;
     private final DictionaryItemRepository dictionaryItemRepository;
     private HttpHeaders headers;
+    private Gson gson;
 
     @Autowired
     public CustomerController(CustomerRepository customerRepository,
@@ -27,6 +30,7 @@ public class CustomerController {
                               DictionaryItemRepository dictionaryItemRepository) {
         this.headers = new HttpHeaders();
         this.headers.setContentType(MediaType.APPLICATION_JSON);
+        this.gson = new Gson();
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
         this.dictionaryItemRepository = dictionaryItemRepository;
@@ -44,6 +48,9 @@ public class CustomerController {
             }
 
             return new ResponseEntity<>( null, headers, HttpStatus.NOT_FOUND);
+
+        } else if (customer.isDeleted() == true) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" This account was deleted"));
         }
 
         Gson gson = new Gson();
@@ -92,5 +99,46 @@ public class CustomerController {
         Gson gson = new Gson();
 
         return new ResponseEntity<>(gson.toJson(customerModel), headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{meId}/delete", method = RequestMethod.POST)
+    public ResponseEntity<String> deleteAccount(@RequestParam(value = "userid", required = true) String userid, @PathVariable(value = "meId") String meId) {
+
+        if (meId == null || meId.isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Your id is required"));
+        }
+
+        if (userid == null || userid.isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Id account to remove is required"));
+        }
+
+        Optional<Customer> userOptional = customerRepository.findById(Long.parseLong(meId));
+        Customer user = new Customer();
+        user.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
+        user.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
+
+        if (user.getAccountType() == null || !user.getAccountType().equals("ADMIN")) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Only admin could delete users account"));
+        }
+
+        if (user.isDeleted() == true) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" This account was deleted"));
+        }
+
+        userOptional = customerRepository.findById(Long.parseLong(userid));
+        Customer userToDelete = new Customer();
+        userToDelete.setLogin(userOptional.map(Customer::getLogin).orElse(null));
+
+        if (userToDelete.getLogin() == null ) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" User with selected id doesnt exist"));
+        }
+
+        userToDelete = customerRepository.findByLogin(userToDelete.getLogin());
+        userToDelete.setDeleted(true);
+        customerRepository.save(userToDelete);
+
+        userToDelete = customerRepository.findByLogin(userToDelete.getLogin());
+
+        return new ResponseEntity<>(gson.toJson(userToDelete), headers, HttpStatus.OK);
     }
 }
