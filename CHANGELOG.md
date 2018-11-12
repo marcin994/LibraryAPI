@@ -1,5 +1,10 @@
 # Change log
 
+## v0.6.1 12.11.2018
+
+**Changed:**
+- Customer login and password sent in body while login process
+
 ## v0.6.0 12.11.2018
 
 **Added:**
