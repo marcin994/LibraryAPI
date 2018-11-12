@@ -102,7 +102,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/{meId}/delete", method = RequestMethod.POST)
-    public ResponseEntity<String> deleteAccount(@RequestParam(value = "userid", required = true) String userid, @PathVariable(value = "meId") String meId) {
+    public ResponseEntity<String> deleteAccount(@RequestParam(value = "userid") String userid, @PathVariable(value = "meId") String meId) {
 
         if (meId == null || meId.isEmpty()) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Your id is required"));

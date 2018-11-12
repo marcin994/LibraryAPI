@@ -29,8 +29,9 @@ public class Book {
     private String publishing;
 
     @NotNull
-    private int publishingYear;
+    private int itemNumber;
 
+    private int publishingYear;
     private int pages;
     private String description;
 
@@ -106,6 +107,18 @@ public class Book {
         this.description = description;
     }
 
+    public int getItemNumber() {
+        return itemNumber;
+    }
+
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
+    public void incrementItemNumber() {
+        this.itemNumber = this.getItemNumber() + 1;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -115,6 +128,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", category='" + category + '\'' +
                 ", publishing='" + publishing + '\'' +
+                ", itemNumber=" + itemNumber +
                 ", publishingYear=" + publishingYear +
                 ", pages=" + pages +
                 ", description='" + description + '\'' +

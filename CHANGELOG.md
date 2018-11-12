@@ -1,5 +1,10 @@
 # Change log
 
+## v0.6.0 12.11.2018
+
+**Added:**
+- Ability to add new books by librarian
+
 ## v0.5.3 12.11.2018
 
 **Added:**
