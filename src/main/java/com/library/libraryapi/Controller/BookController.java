@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 public class BookController {
 
-    //TODO: add, remove, edit, search,
+    //TODO: remove, edit, search,
 
     private final BookRepository bookRepository;
     private final CustomerRepository customerRepository;

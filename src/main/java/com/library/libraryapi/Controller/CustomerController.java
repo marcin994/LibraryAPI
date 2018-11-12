@@ -37,13 +37,21 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestParam("login") String login, @RequestParam("password") String password) {
+    public ResponseEntity<String> login(@RequestBody Customer user) {
 
-        Customer customer = customerRepository.findByLoginAndPassword(login, password);
+        if (user.getLogin() == null || user.getLogin().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Login cant be empty"));
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Password cant be empty"));
+        }
+
+        Customer customer = customerRepository.findByLoginAndPassword(user.getLogin(), user.getPassword());
 
         if (customer == null) {
 
-            if (customerRepository.findByLogin(login) != null) {
+            if (customerRepository.findByLogin(user.getLogin()) != null) {
                 return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Invalid password"));
             }
 
