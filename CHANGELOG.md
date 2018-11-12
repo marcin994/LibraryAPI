@@ -4,6 +4,8 @@
 
 **Changed:**
 - Customer login and password sent in body while login process
+- structure of book entity
+- adding root book
 
 ## v0.6.0 12.11.2018
 
