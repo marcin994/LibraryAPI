@@ -1,9 +1,11 @@
 package com.library.libraryapi.Controller;
 
 import com.google.gson.Gson;
+import com.library.libraryapi.DAO.BookItemRepository;
 import com.library.libraryapi.DAO.BookRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
 import com.library.libraryapi.Model.Book;
+import com.library.libraryapi.Model.BookItem;
 import com.library.libraryapi.Model.Customer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
@@ -20,60 +23,99 @@ public class BookController {
 
     private final BookRepository bookRepository;
     private final CustomerRepository customerRepository;
+    private final BookItemRepository bookItemRepository;
     private HttpHeaders headers;
     private Gson gson;
 
     public BookController(BookRepository bookRepository,
-                          CustomerRepository customerRepository) {
+                          CustomerRepository customerRepository,
+                          BookItemRepository bookItemRepository) {
         this.bookRepository = bookRepository;
         this.customerRepository = customerRepository;
+        this.bookItemRepository = bookItemRepository;
         this.headers = new HttpHeaders();
         this.headers.setContentType(MediaType.APPLICATION_JSON);
         this.gson = new Gson();
     }
 
     @RequestMapping(value = "/{me}/addBook", method = RequestMethod.POST)
-    public ResponseEntity<String> addBook(@PathVariable(value = "me") String me, @RequestBody Book book) {
+    public ResponseEntity<String> addBook(@PathVariable(value = "me") String me,
+                                          @RequestBody(required = false) Book book) {
 
         if (!userCouldPerformAction(me)) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Your account doesnt exist or you arent librarian"));
         }
 
-        if (book.getIsbn() == null || book.getIsbn().isEmpty()) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Isbn is required"));
+//        if (book == null && bookItem == null) {
+//            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorect data"));
+//        }
+
+        if (book != null) {
+            if (book.getTitle() == null || book.getTitle().isEmpty()) {
+                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title is required"));
+            }
+
+            if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
+                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author is required"));
+            }
+
+            if (book.getCategory() == null || book.getCategory().isEmpty()) {
+                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Category is required"));
+            }
+
+            Book existedBook = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
+
+            if (existedBook != null) {
+                book = existedBook;
+            }
+
+            if (book.getItems() == null) {
+                book.setItems(new ArrayList<>());
+            }
+
+            bookRepository.save(book);
         }
 
-        if (book.getTitle() == null || book.getTitle().isEmpty()) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title is required"));
-        }
+//        if (bookItem != null) {
+//            if (bookItem.getTitle() == null || bookItem.getTitle().isEmpty()) {
+//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title for item is required"));
+//            }
+//
+//            if (bookItem.getAuthor() == null || bookItem.getAuthor().isEmpty()) {
+//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author for item is required"));
+//            }
+//
+//            if (bookItem.getIsbn() == null || bookItem.getIsbn().isEmpty()) {
+//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Isbn is required"));
+//            }
+//
+//            if (bookItem.getPublishing() == null || bookItem.getPublishing().isEmpty()) {
+//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Publishing is required"));
+//            }
+//
+//            bookItem.setAvailable(true);
+//
+//            book = bookRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
+//
+//            if (book == null) {
+//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Book doesny exist yet"));
+//            }
+//
+//
+//            book.addBookItem(bookItem);
+//            bookItem.setBook(book);
+//
+//            bookItemRepository.save(bookItem);
+//            bookRepository.save(book);
+//        }
+//
+//        if (book != null) {
+//            book = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
+//        } else {
+//            book = bookRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
+//        }
 
-        if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author is required"));
-        }
-
-        if (book.getPublishing() == null || book.getPublishing().isEmpty()) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Publishing is required"));
-        }
-
-        if (book.getCategory() == null || book.getCategory().isEmpty()) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Category is required"));
-        }
-
-        Book existedBook = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
-
-        if (existedBook != null) {
-            existedBook.incrementItemNumber();
-            book = existedBook;
-        }
-
-        if (book.getItemNumber() == 0) {
-            book.incrementItemNumber();
-        }
-
-        bookRepository.save(book);
-        String savedBook = gson.toJson(bookRepository.findByIsbn(book.getIsbn()));
-
-        return new ResponseEntity<>(savedBook, headers, HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(book), headers, HttpStatus.OK);
     }
 
     public boolean userCouldPerformAction(String id) {

@@ -1,9 +1,9 @@
 package com.library.libraryapi.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -12,9 +12,6 @@ public class Book {
     @GeneratedValue
     @NotNull
     private long id;
-
-    @NotNull
-    private String isbn;
 
     @NotNull
     private String title;
@@ -26,13 +23,11 @@ public class Book {
     private String category;
 
     @NotNull
-    private String publishing;
-
-    @NotNull
     private int itemNumber;
 
-    private int publishingYear;
-    private int pages;
+    @OneToMany
+    private List<BookItem> items;
+
     private String description;
 
     public long getId() {
@@ -41,14 +36,6 @@ public class Book {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 
     public String getTitle() {
@@ -75,28 +62,12 @@ public class Book {
         this.category = category;
     }
 
-    public String getPublishing() {
-        return publishing;
+    public int getItemNumber() {
+        return itemNumber;
     }
 
-    public void setPublishing(String publishing) {
-        this.publishing = publishing;
-    }
-
-    public int getPublishingYear() {
-        return publishingYear;
-    }
-
-    public void setPublishingYear(int publishingYear) {
-        this.publishingYear = publishingYear;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
     }
 
     public String getDescription() {
@@ -107,30 +78,32 @@ public class Book {
         this.description = description;
     }
 
-    public int getItemNumber() {
-        return itemNumber;
+    public List<BookItem> getItems() {
+        return items;
     }
 
-    public void setItemNumber(int itemNumber) {
-        this.itemNumber = itemNumber;
+    public void setItems(List<BookItem> items) {
+        this.items = items;
     }
 
-    public void incrementItemNumber() {
-        this.itemNumber = this.getItemNumber() + 1;
+    public void addBookItem(BookItem item) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+
+        this.items.add(item);
+        this.setItemNumber(this.getItems().size());
     }
 
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", category='" + category + '\'' +
-                ", publishing='" + publishing + '\'' +
                 ", itemNumber=" + itemNumber +
-                ", publishingYear=" + publishingYear +
-                ", pages=" + pages +
+                ", items=" + items +
                 ", description='" + description + '\'' +
                 '}';
     }
