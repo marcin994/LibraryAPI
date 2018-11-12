@@ -1,5 +1,11 @@
 # Change log
 
+## v0.5.3 12.11.2018
+
+**Added:**
+- Entity for books
+- Local repository for books
+
 ## v0.5.2 4.11.2018
 
 **Added:**
