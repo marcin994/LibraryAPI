@@ -25,6 +25,9 @@ public class Book {
     @NotNull
     private int itemNumber;
 
+    @NotNull
+    private boolean isDeleted;
+
     @OneToMany
     private List<BookItem> items;
 
@@ -95,6 +98,14 @@ public class Book {
         this.setItemNumber(this.getItems().size());
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -103,6 +114,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", category='" + category + '\'' +
                 ", itemNumber=" + itemNumber +
+                ", isDeleted=" + isDeleted +
                 ", items=" + items +
                 ", description='" + description + '\'' +
                 '}';

@@ -14,12 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class BookController {
 
-    //TODO: remove, edit, search,
+    //TODO: remove, edit,
 
     private final BookRepository bookRepository;
     private final CustomerRepository customerRepository;
@@ -66,6 +67,10 @@ public class BookController {
 
         if (existedBook != null) {
             book = existedBook;
+        }
+
+        if (book.isDeleted()) {
+            book.setDeleted(false);
         }
 
         if (book.getItems() == null) {
@@ -122,6 +127,18 @@ public class BookController {
         book = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
 
         return new ResponseEntity<>(gson.toJson(book), headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ResponseEntity<String> searchBook(@RequestParam(name = "text", required = false) String text) {
+
+        if (text == null || text.isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Searching text cant be empty"));
+        }
+
+        List<Book> books = bookRepository.findAllByTitleContainingOrAuthorContainingOrDescriptionContaining(text, text, text);
+
+        return new ResponseEntity<>(gson.toJson(books), headers, HttpStatus.OK);
     }
 
     public boolean userCouldPerformAction(String id) {

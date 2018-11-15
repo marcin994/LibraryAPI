@@ -1,5 +1,9 @@
 # Change log
 
+## v0.7.0 15.11.2018
+**Added:**
+- searching books by author/title/description containing typed text
+
 ## v0.6.2 15.11.2018
 **Fix:**
 - StackOverflowError throw by gson for adding new root book
