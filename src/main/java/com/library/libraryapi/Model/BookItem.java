@@ -33,7 +33,7 @@ public class BookItem {
     private boolean isAvailable;
 
     @OneToOne
-    private Book book;
+    private transient Book book;
 
     public long getId() {
         return id;

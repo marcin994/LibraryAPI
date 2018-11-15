@@ -46,74 +46,80 @@ public class BookController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Your account doesnt exist or you arent librarian"));
         }
 
-//        if (book == null && bookItem == null) {
-//            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorect data"));
-//        }
-
-        if (book != null) {
-            if (book.getTitle() == null || book.getTitle().isEmpty()) {
-                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title is required"));
-            }
-
-            if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
-                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author is required"));
-            }
-
-            if (book.getCategory() == null || book.getCategory().isEmpty()) {
-                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Category is required"));
-            }
-
-            Book existedBook = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
-
-            if (existedBook != null) {
-                book = existedBook;
-            }
-
-            if (book.getItems() == null) {
-                book.setItems(new ArrayList<>());
-            }
-
-            bookRepository.save(book);
+        if (book == null) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorect data"));
         }
 
-//        if (bookItem != null) {
-//            if (bookItem.getTitle() == null || bookItem.getTitle().isEmpty()) {
-//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title for item is required"));
-//            }
-//
-//            if (bookItem.getAuthor() == null || bookItem.getAuthor().isEmpty()) {
-//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author for item is required"));
-//            }
-//
-//            if (bookItem.getIsbn() == null || bookItem.getIsbn().isEmpty()) {
-//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Isbn is required"));
-//            }
-//
-//            if (bookItem.getPublishing() == null || bookItem.getPublishing().isEmpty()) {
-//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Publishing is required"));
-//            }
-//
-//            bookItem.setAvailable(true);
-//
-//            book = bookRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
-//
-//            if (book == null) {
-//                return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Book doesny exist yet"));
-//            }
-//
-//
-//            book.addBookItem(bookItem);
-//            bookItem.setBook(book);
-//
-//            bookItemRepository.save(bookItem);
-//            bookRepository.save(book);
-//        }
-//
-//        if (book != null) {
-//            book = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
-//        } else {
-//            book = bookRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
-//        }
+        if (book.getTitle() == null || book.getTitle().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title is required"));
+        }
+
+        if (book.getAuthor() == null || book.getAuthor().isEmpty()) {
+               return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author is required"));
+        }
+
+        if (book.getCategory() == null || book.getCategory().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Category is required"));
+        }
+
+        Book existedBook = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
+
+        if (existedBook != null) {
+            book = existedBook;
+        }
+
+        if (book.getItems() == null) {
+            book.setItems(new ArrayList<>());
+        }
+
+        bookRepository.save(book);
+
+        return new ResponseEntity<>(gson.toJson(book), headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{me}/addBookItem", method = RequestMethod.POST)
+    public ResponseEntity<String> addBookIItem(@PathVariable(value = "me") String me,
+                                               @RequestBody BookItem bookItem) {
+
+        if (!userCouldPerformAction(me)) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Your account doesnt exist or you arent librarian"));
+        }
+
+        if (bookItem == null ) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Incorect data"));
+        }
+
+        if (bookItem.getTitle() == null || bookItem.getTitle().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Title for item is required"));
+        }
+
+         if (bookItem.getAuthor() == null || bookItem.getAuthor().isEmpty()) {
+             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Author for item is required"));
+         }
+
+        if (bookItem.getIsbn() == null || bookItem.getIsbn().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Isbn is required"));
+        }
+
+        if (bookItem.getPublishing() == null || bookItem.getPublishing().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Publishing is required"));
+        }
+
+        bookItem.setAvailable(true);
+
+        Book book = bookRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
+
+        if (book == null) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Book doesny exist yet"));
+        }
+
+        book.addBookItem(bookItem);
+        bookItem.setBook(book);
+
+        bookItemRepository.save(bookItem);
+        bookRepository.save(book);
+
+        book = bookRepository.findByAuthorAndTitle(book.getAuthor(), book.getTitle());
 
         return new ResponseEntity<>(gson.toJson(book), headers, HttpStatus.OK);
     }

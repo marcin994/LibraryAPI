@@ -1,5 +1,12 @@
 # Change log
 
+## v0.6.2 15.11.2018
+**Fix:**
+- StackOverflowError throw by gson for adding new root book
+
+**Added:**
+- ability to add books item
+
 ## v0.6.1 12.11.2018
 
 **Changed:**
