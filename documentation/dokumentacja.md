@@ -47,4 +47,5 @@
 </ul>
 
 <h4>Diagram encji</h4>
-<img src="https://raw.githubusercontent.com/be1zi/LibraryAPI/master/diagramEncjii.png" alt="Diagram Encji">
+<img src="https://raw.githubusercontent.com/be1zi/LibraryAPI/master/documentation/diagramEncjii.png" alt="Diagram Encji">
+[Diagram encji](diagramEncjii.png)
