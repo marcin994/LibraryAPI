@@ -2,6 +2,7 @@ package com.library.libraryapi.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class Book {
 
     @NotNull
     private boolean isDeleted;
+
+    @Null
+    private long image;
 
     @OneToMany
     private List<BookItem> items;
@@ -89,6 +93,14 @@ public class Book {
         this.items = items;
     }
 
+    public long getImage() {
+        return image;
+    }
+
+    public void setImage(long image) {
+        this.image = image;
+    }
+
     public void addBookItem(BookItem item) {
         if (this.items == null) {
             this.items = new ArrayList<>();
@@ -115,6 +127,7 @@ public class Book {
                 ", category='" + category + '\'' +
                 ", itemNumber=" + itemNumber +
                 ", isDeleted=" + isDeleted +
+                ", image=" + image +
                 ", items=" + items +
                 ", description='" + description + '\'' +
                 '}';

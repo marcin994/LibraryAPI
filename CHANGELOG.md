@@ -1,5 +1,11 @@
 # Change log
 
+## v0.7.1 27.11.2018
+**Added:**
+- Entity for files
+- Field image for book entity with id to file
+- download file by id
+
 ## v0.7.0 15.11.2018
 **Added:**
 - searching books by author/title/description containing typed text
