@@ -1,9 +1,8 @@
 package com.library.libraryapi.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Dictionary {
@@ -18,6 +17,9 @@ public class Dictionary {
 
     @NotNull
     private String code;
+
+    @OneToMany (fetch = FetchType.LAZY)
+    private List<DictionaryItem> items;
 
     public long getId() {
         return id;
@@ -41,6 +43,14 @@ public class Dictionary {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public List<DictionaryItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<DictionaryItem> items) {
+        this.items = items;
     }
 
     @Override
