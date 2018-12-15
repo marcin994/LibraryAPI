@@ -23,6 +23,9 @@ public class DictionaryItem {
     @NotNull
     private String domain;
 
+    @NotNull
+    private String value;
+
     public long getId() {
         return id;
     }
@@ -55,6 +58,14 @@ public class DictionaryItem {
         this.domain = domain;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return "DictionaryItem{" +
@@ -62,6 +73,7 @@ public class DictionaryItem {
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +
                 ", domain='" + domain + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }

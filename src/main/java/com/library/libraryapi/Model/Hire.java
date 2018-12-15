@@ -91,7 +91,7 @@ public class Hire {
     public String toString() {
         return "Hire{" +
                 "id=" + id +
-                ", customer=" + customer +
+                ", customer=" + customer.toString() +
                 ", book=" + book +
                 ", hireDate=" + hireDate +
                 ", returnDate=" + returnDate +

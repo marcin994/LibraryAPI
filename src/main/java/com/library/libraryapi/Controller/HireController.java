@@ -5,16 +5,16 @@ import com.library.libraryapi.DAO.BookItemRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
 import com.library.libraryapi.DAO.DictionaryItemRepository;
 import com.library.libraryapi.DAO.HireRepository;
-import com.library.libraryapi.Model.BookItem;
-import com.library.libraryapi.Model.Customer;
-import com.library.libraryapi.Model.DictionaryItem;
-import com.library.libraryapi.Model.Hire;
+import com.library.libraryapi.Model.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -81,21 +81,31 @@ public class HireController {
         bookItem = bookItemRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
 
         if (bookItem == null) {
-            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" book doesny exist"));
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" book doesnt exist"));
         }
 
         if (!bookItem.isAvailable()) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" book isnt available"));
         }
 
-//
-//        Hire hire = new Hire();
-//
-//        hire.setAvailableExtension(3);
+        Hire hire = new Hire();
+        DictionaryItem extension = dictionaryItemRepository.findByCode("EXDF");
+        DictionaryItem returnTime = dictionaryItemRepository.findByCode("BRT");
 
-        return null;
+        int maxExtension = extension != null ? Integer.parseInt(extension.getValue()) : 0;
+        int bookReturnAfterDays = returnTime != null ? Integer.parseInt(returnTime.getValue()) : 30;
+
+        hire.setAvailableExtension(maxExtension);
+        hire.setBook(bookItem);
+        hire.setCustomer(user);
+        hire.setHireDate(new Date());
+        hire.setReturnDate(addDays(bookReturnAfterDays, hire.getHireDate()));
+        user.addHire(hire);
+
+        saveHire(hire, user, bookItem);
+
+        return new ResponseEntity<>(null, headers, HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/{me}/return", method = RequestMethod.POST)
     public ResponseEntity<String> returnAction(@PathVariable(value = "me") String me,
@@ -104,11 +114,28 @@ public class HireController {
         return null;
     }
 
-
     @RequestMapping(value = "/{me}/extend", method = RequestMethod.POST)
     public ResponseEntity<String> extendAction(@PathVariable(value = "me") String me,
                                                @RequestParam(name = "book") String bookId) {
 
         return null;
+    }
+
+    private Date addDays(int numberOfDays, Date date){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, numberOfDays);
+        return c.getTime();
+    }
+
+    @Transactional
+    protected void saveHire(Hire hire, Customer customer, BookItem bookItem) {
+
+        bookItem.setAvailable(false);
+
+        hireRepository.save(hire);
+        customerRepository.save(customer);
+        bookItemRepository.save(bookItem);
     }
 }

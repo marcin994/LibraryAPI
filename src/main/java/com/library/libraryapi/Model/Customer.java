@@ -2,6 +2,7 @@ package com.library.libraryapi.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,7 @@ public class Customer {
     @OneToOne
     private Address address;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Hire> hireBooks;
 
     public long getId() {
@@ -121,6 +122,14 @@ public class Customer {
         this.hireBooks = hireBooks;
     }
 
+    public void addHire(Hire hire) {
+        if (this.getHireBooks() == null) {
+            this.setHireBooks(new ArrayList<>());
+        }
+
+        this.hireBooks.add(hire);
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -134,7 +143,7 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", isDeleted=" + isDeleted +
                 ", address=" + address +
-                ", hireBooks=" + hireBooks +
+                ", hireBooks=" + hireBooks.toString() +
                 '}';
     }
 }
