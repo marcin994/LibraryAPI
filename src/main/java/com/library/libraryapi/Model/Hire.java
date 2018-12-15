@@ -2,6 +2,7 @@ package com.library.libraryapi.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.Date;
 
 @Entity

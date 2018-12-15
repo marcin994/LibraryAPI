@@ -1,10 +1,12 @@
 package com.library.libraryapi.Controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.library.libraryapi.DAO.AddressRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
 import com.library.libraryapi.DAO.DictionaryItemRepository;
 import com.library.libraryapi.Model.Customer;
+import com.library.libraryapi.Util.Adapter.ListAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,7 +32,9 @@ public class CustomerController {
                               DictionaryItemRepository dictionaryItemRepository) {
         this.headers = new HttpHeaders();
         this.headers.setContentType(MediaType.APPLICATION_JSON);
-        this.gson = new Gson();
+        this.gson = new GsonBuilder().
+                registerTypeHierarchyAdapter(List.class, new ListAdapter()).
+                create();
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
         this.dictionaryItemRepository = dictionaryItemRepository;
@@ -60,7 +65,6 @@ public class CustomerController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" This account was deleted"));
         }
 
-        Gson gson = new Gson();
         String result = gson.toJson(customer);
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -103,7 +107,6 @@ public class CustomerController {
         }
 
         customerModel.setPassword(null);
-        Gson gson = new Gson();
 
         return new ResponseEntity<>(gson.toJson(customerModel), headers, HttpStatus.OK);
     }

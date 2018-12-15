@@ -1,11 +1,13 @@
 package com.library.libraryapi.Controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.library.libraryapi.DAO.BookItemRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
 import com.library.libraryapi.DAO.DictionaryItemRepository;
 import com.library.libraryapi.DAO.HireRepository;
 import com.library.libraryapi.Model.*;
+import com.library.libraryapi.Util.Adapter.ListAdapter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -75,10 +78,11 @@ public class HireController {
         Optional<BookItem> bookItemOptional = bookItemRepository.findById(Long.parseLong(book));
 
         BookItem bookItem = new BookItem();
+        bookItem.setId(bookItemOptional.map(BookItem::getId).orElse(null));
         bookItem.setAuthor(bookItemOptional.map(BookItem::getAuthor).orElse(null));
         bookItem.setTitle(bookItemOptional.map(BookItem::getTitle).orElse(null));
 
-        bookItem = bookItemRepository.findByAuthorAndTitle(bookItem.getAuthor(), bookItem.getTitle());
+        bookItem = bookItemRepository.findByIdAndAuthorAndTitle(bookItem.getId(), bookItem.getAuthor(), bookItem.getTitle());
 
         if (bookItem == null) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" book doesnt exist"));

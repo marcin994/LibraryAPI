@@ -31,7 +31,7 @@ public class Customer {
     @OneToOne
     private Address address;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Hire> hireBooks;
 
     public long getId() {
@@ -143,7 +143,6 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", isDeleted=" + isDeleted +
                 ", address=" + address +
-                ", hireBooks=" + hireBooks.toString() +
                 '}';
     }
 }
