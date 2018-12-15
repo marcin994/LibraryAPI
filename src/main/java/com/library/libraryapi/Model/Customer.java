@@ -2,6 +2,7 @@ package com.library.libraryapi.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -28,6 +29,9 @@ public class Customer {
 
     @OneToOne
     private Address address;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Hire> hireBooks;
 
     public long getId() {
         return id;
@@ -109,6 +113,14 @@ public class Customer {
         this.accountType = accountType;
     }
 
+    public List<Hire> getHireBooks() {
+        return hireBooks;
+    }
+
+    public void setHireBooks(List<Hire> hireBooks) {
+        this.hireBooks = hireBooks;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -122,6 +134,7 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", isDeleted=" + isDeleted +
                 ", address=" + address +
+                ", hireBooks=" + hireBooks +
                 '}';
     }
 }

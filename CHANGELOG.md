@@ -1,5 +1,9 @@
 # Change log
 
+## v0.7.2 15.12.2018
+**Added:**
+- Entity for hire books
+
 ## v0.7.1 27.11.2018
 **Added:**
 - Entity for files

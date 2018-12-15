@@ -35,6 +35,9 @@ public class BookItem {
     @OneToOne
     private transient Book book;
 
+    @OneToOne
+    private File image;
+
     public long getId() {
         return id;
     }
@@ -115,6 +118,14 @@ public class BookItem {
         this.author = author;
     }
 
+    public File getImage() {
+        return image;
+    }
+
+    public void setImage(File image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "BookItem{" +
@@ -128,6 +139,7 @@ public class BookItem {
                 ", isDeleted=" + isDeleted +
                 ", isAvailable=" + isAvailable +
                 ", book=" + book +
+                ", image=" + image +
                 '}';
     }
 }
