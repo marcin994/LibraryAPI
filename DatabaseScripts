@@ -1,11 +1,11 @@
-Add current date for field hireDate while hire book
+-- Add current date for field hireDate while hire book
 CREATE TRIGGER hireDate
 BEFORE INSERT ON hire
 FOR EACH ROW BEGIN
 
-SET NEW.hireDate = now();
+SET NEW.hire_date = now();
 
-END
+END;
 
 -- Add date of last hire modification
 CREATE TRIGGER lastModify
@@ -14,4 +14,6 @@ FOR EACH ROW BEGIN
 
 SET NEW.last_modify_date = now();
 
-END
+END;
+
+-- add triger witch set book availabel flat on true when return book
