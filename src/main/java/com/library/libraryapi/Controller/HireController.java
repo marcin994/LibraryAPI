@@ -47,15 +47,15 @@ public class HireController {
     }
 
     @RequestMapping(value = "/{me}/hire", method = RequestMethod.POST)
-    public ResponseEntity<String> hireAction(@PathVariable(value = "me") String me,
-                                             @RequestParam(name = "book") String book) {
+    public ResponseEntity<String> hireAction(@PathVariable(value = "me") Long me,
+                                             @RequestParam(name = "book") Long book) {
 
         //Customer validation
-        if (me == null || me.isEmpty()) {
+        if (me == null ) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
         }
 
-        Optional<Customer> userOptional = customerRepository.findById(Long.parseLong(me));
+        Optional<Customer> userOptional = customerRepository.findById(me);
 
         Customer user = new Customer();
         user.setLogin(userOptional.map(Customer::getLogin).orElse(null));
@@ -71,11 +71,11 @@ public class HireController {
         }
 
         //Book validation
-        if (book == null || book.isEmpty()) {
+        if (book == null ) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" BookId is required"));
         }
 
-        Optional<BookItem> bookItemOptional = bookItemRepository.findById(Long.parseLong(book));
+        Optional<BookItem> bookItemOptional = bookItemRepository.findById(book);
 
         BookItem bookItem = new BookItem();
         bookItem.setId(bookItemOptional.map(BookItem::getId).orElse(null));
@@ -137,15 +137,19 @@ public class HireController {
     }
 
     @RequestMapping(value = "/{me}/return", method = RequestMethod.POST)
-    public ResponseEntity<String> returnAction(@PathVariable(value = "me") String me,
-                                               @RequestParam(name = "book") String bookId) {
+    public ResponseEntity<String> returnAction(@PathVariable(value = "me") Long me,
+                                               @RequestParam(name = "book") Long bookId) {
+
+
 
         return null;
     }
 
     @RequestMapping(value = "/{me}/extend", method = RequestMethod.POST)
-    public ResponseEntity<String> extendAction(@PathVariable(value = "me") String me,
-                                               @RequestParam(name = "book") String bookId) {
+    public ResponseEntity<String> extendAction(@PathVariable(value = "me") Long me,
+                                               @RequestParam(name = "book") Long bookId) {
+
+        Optional<BookItem> optionalBookItem = bookItemRepository.findById(bookId);
 
         return null;
     }
