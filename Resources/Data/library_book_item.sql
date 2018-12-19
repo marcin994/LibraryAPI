@@ -1,0 +1,11 @@
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (29, 'Sapkowski', false, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (30, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (31, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (32, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (33, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (34, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (35, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (36, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (37, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (38, 'Sapkowski', true, false, '12345', 0, 'Supernowa', 2018, 'Witcher', null);
+INSERT INTO library.book_item (id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id) VALUES (46, 'Tolkien', false, false, '45435', 1200, 'Mag', 123, 'Lord of the Rings', null);

@@ -1,0 +1,1 @@
+INSERT INTO library.address (id, city, house_number, place_number, street, voivodeship, zip_code) VALUES (6, null, null, null, null, null, null);

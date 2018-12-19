@@ -1,0 +1,2 @@
+INSERT INTO library.hire (id, available_extension, charge, hire_date, return_date, book_id, customer_id) VALUES (60, 3, 0, '2018-12-15 16:34:08', '2019-01-14 16:34:08', 46, 8);
+INSERT INTO library.hire (id, available_extension, charge, hire_date, return_date, book_id, customer_id) VALUES (61, 3, 0, '2018-12-15 16:34:34', '2019-01-14 16:34:34', 29, 8);

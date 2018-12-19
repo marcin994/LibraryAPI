@@ -1,0 +1,2 @@
+INSERT INTO library.book (id, author, category, description, is_deleted, item_number, title, image) VALUES (28, 'Sapkowski', 'FA', null, false, 10, 'Witcher', 0);
+INSERT INTO library.book (id, author, category, description, is_deleted, item_number, title, image) VALUES (39, 'Tolkien', 'FA', null, false, 1, 'Lord of the Rings', 0);

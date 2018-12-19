@@ -1,0 +1,11 @@
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 37);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 35);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 33);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 31);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 29);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 30);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 32);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 34);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 36);
+INSERT INTO library.book_items (book_id, items_id) VALUES (28, 38);
+INSERT INTO library.book_items (book_id, items_id) VALUES (39, 46);

@@ -1,0 +1,4 @@
+INSERT INTO library.customer (id, email, first_name, last_name, login, password, phone_number, address_id, account_type, is_deleted) VALUES (7, null, null, null, 'test', 'password', null, 6, 'ADMIN', false);
+INSERT INTO library.customer (id, email, first_name, last_name, login, password, phone_number, address_id, account_type, is_deleted) VALUES (8, null, null, null, 'test1', 'password', null, null, 'USER', false);
+INSERT INTO library.customer (id, email, first_name, last_name, login, password, phone_number, address_id, account_type, is_deleted) VALUES (9, null, null, null, 'test12', 'password', null, null, 'LIBRARIAN', false);
+INSERT INTO library.customer (id, email, first_name, last_name, login, password, phone_number, address_id, account_type, is_deleted) VALUES (1234, null, null, null, 'todelete', 'todelete', null, null, 'USER', true);
