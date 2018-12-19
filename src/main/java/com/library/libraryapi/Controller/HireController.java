@@ -114,6 +114,10 @@ public class HireController {
     @RequestMapping(value = "/{me}/list", method = RequestMethod.GET)
     public ResponseEntity<String> getHireList(@PathVariable(value = "me") Long me) {
 
+        if (me == null ) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
+        }
+
         Optional<Customer> optionalCustomer = customerRepository.findById(me);
 
         if (optionalCustomer == null) {
@@ -149,9 +153,51 @@ public class HireController {
     public ResponseEntity<String> extendAction(@PathVariable(value = "me") Long me,
                                                @RequestParam(name = "book") Long bookId) {
 
-        Optional<BookItem> optionalBookItem = bookItemRepository.findById(bookId);
+        if (me == null ) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
+        }
 
-        return null;
+        Optional<Customer> optionalCustomer = customerRepository.findById(me);
+
+        if (optionalCustomer == null) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
+        }
+
+        Customer customer = customerRepository.findByLogin(optionalCustomer.map(Customer::getLogin).orElse(null));
+
+        if (customer == null || customer.getLogin() == null || customer.getLogin().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
+        }
+
+        if (customer.getHireBooks() == null || customer.getHireBooks().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Empty hire list"));
+        }
+
+        for (Hire hire : customer.getHireBooks()) {
+            if (hire.getBook().getId() == bookId &&
+                    hire.getAvailableExtension() > 0 &&
+                    hire.getReturnDate().after(new Date())) {
+
+                DictionaryItem returnTime = dictionaryItemRepository.findByCode("BRT");
+                int bookReturnAfterDays = returnTime != null ? Integer.parseInt(returnTime.getValue()) : 30;
+
+                hire.setAvailableExtension(hire.getAvailableExtension() - 1);
+                hire.setReturnDate(addDays(bookReturnAfterDays, hire.getReturnDate()));
+                hireRepository.save(hire);
+
+                hire.setCustomer(null);
+                return new ResponseEntity<>(gson.toJson(hire), headers, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Something went wrong"));
+    }
+
+    //Helpers
+
+    private boolean checkUser(Long id) {
+
+        return true;
     }
 
     private Date addDays(int numberOfDays, Date date){
