@@ -4,6 +4,8 @@
 **Added:**
 - Ability do extend hire books
 - Ability to return books
+- last modification field to hire entity
+- sql triggers which updates dates
 
 **Fix:**
 - Login

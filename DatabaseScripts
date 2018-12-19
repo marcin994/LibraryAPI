@@ -16,4 +16,4 @@ SET NEW.last_modify_date = now();
 
 END;
 
--- add triger witch set book availabel flat on true when return book
+-- add triger which set book available flat on true when return book
