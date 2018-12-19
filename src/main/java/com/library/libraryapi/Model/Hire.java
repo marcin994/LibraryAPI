@@ -27,6 +27,8 @@ public class Hire {
     @NotNull
     private Date returnDate;
 
+    private Date lastModifyDate;
+
     @NotNull
     private int availableExtension;
 
@@ -86,6 +88,14 @@ public class Hire {
 
     public void setCharge(double charge) {
         this.charge = charge;
+    }
+
+    public Date getLastModifyDate() {
+        return lastModifyDate;
+    }
+
+    public void setLastModifyDate(Date lastModifyDate) {
+        this.lastModifyDate = lastModifyDate;
     }
 
     @Override
