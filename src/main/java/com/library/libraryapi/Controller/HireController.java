@@ -111,6 +111,31 @@ public class HireController {
         return new ResponseEntity<>(null, headers, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{me}/list", method = RequestMethod.GET)
+    public ResponseEntity<String> getHireList(@PathVariable(value = "me") Long me) {
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(me);
+
+        if (optionalCustomer == null) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
+        }
+
+        Customer customer = new Customer();
+        customer.setLogin(optionalCustomer.map(Customer::getLogin).orElse(null));
+
+        if (customer == null || customer.getLogin() == null || customer.getLogin().isEmpty()) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
+        }
+
+        customer = customerRepository.findByLogin(customer.getLogin());
+
+        for (int i = 0; i < customer.getHireBooks().size(); i ++) {
+            customer.getHireBooks().get(i).setCustomer(null);
+        }
+
+        return new ResponseEntity<>(gson.toJson(customer.getHireBooks()), headers, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{me}/return", method = RequestMethod.POST)
     public ResponseEntity<String> returnAction(@PathVariable(value = "me") String me,
                                                @RequestParam(name = "book") String bookId) {

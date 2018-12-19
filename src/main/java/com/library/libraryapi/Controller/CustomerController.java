@@ -65,6 +65,7 @@ public class CustomerController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" This account was deleted"));
         }
 
+        customer.setHireBooks(null);
         String result = gson.toJson(customer);
 
         return new ResponseEntity<>(result, headers, HttpStatus.OK);
