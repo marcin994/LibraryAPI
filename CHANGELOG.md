@@ -1,5 +1,14 @@
 # Change log
 
+## v0.7.3 19.12.2018
+**Added:**
+- Ability do extend hire books
+- Ability to return books
+
+**Fix:**
+- Login
+- Adding new books and book items
+
 ## v0.7.2 15.12.2018
 **Added:**
 - Entity for hire books

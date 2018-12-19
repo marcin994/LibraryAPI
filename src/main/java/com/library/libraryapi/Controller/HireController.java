@@ -142,9 +142,44 @@ public class HireController {
 
     @RequestMapping(value = "/{me}/return", method = RequestMethod.POST)
     public ResponseEntity<String> returnAction(@PathVariable(value = "me") Long me,
-                                               @RequestParam(name = "book") Long bookId) {
+                                               @RequestParam(name = "book") Long bookId,
+                                               @RequestParam(name = "user") Long userId) {
 
+        if (me == null) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
+        }
 
+        Optional<Customer> userOptional = customerRepository.findById(me);
+        Customer librarian = new Customer();
+        librarian.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
+        librarian.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
+
+        if (librarian.getAccountType() == null || !librarian.getAccountType().equals("LIBRARIAN")) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" You arent librarian"));
+        }
+
+        if (librarian.isDeleted() == true) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account is deleted"));
+        }
+
+        Optional<Customer> customer = customerRepository.findById(userId);
+        Customer user = new Customer();
+        user.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
+        user.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
+        user = customerRepository.findByLogin(customer.map(Customer::getLogin).orElse(null));
+
+        if (user.isDeleted() == true) {
+            return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account is deleted"));
+        }
+
+        Hire hire;
+
+        for (int i = 0; i < user.getHireBooks().size(); i ++) {
+            if (user.getHireBooks().get(i).getBook().getId() == bookId) {
+                hire = user.getHireBooks().get(i);
+                deleteHire(hire, user);
+            }
+        }
 
         return null;
     }
@@ -216,5 +251,13 @@ public class HireController {
         hireRepository.save(hire);
         customerRepository.save(customer);
         bookItemRepository.save(bookItem);
+    }
+
+    @Transactional
+    protected void deleteHire(Hire hire, Customer customer) {
+
+        customer.getHireBooks().remove(hire);
+        customerRepository.save(customer);
+        hireRepository.delete(hire);
     }
 }
