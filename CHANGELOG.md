@@ -1,5 +1,12 @@
 # Change log
 
+## v0.7.4 23.12.2018
+**Changed:**
+- isDeleted flag field in hire model instead remove row from db when dont needed
+
+**Fix:**
+- restoration available status for book after return
+
 ## v0.7.3 19.12.2018
 **Added:**
 - Ability do extend hire books
