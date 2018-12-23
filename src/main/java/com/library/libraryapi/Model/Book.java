@@ -1,5 +1,7 @@
 package com.library.libraryapi.Model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
