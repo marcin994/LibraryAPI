@@ -34,6 +34,8 @@ public class Hire {
 
     private double charge;
 
+    private boolean isDeleted;
+
     public long getId() {
         return id;
     }
@@ -96,6 +98,14 @@ public class Hire {
 
     public void setLastModifyDate(Date lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

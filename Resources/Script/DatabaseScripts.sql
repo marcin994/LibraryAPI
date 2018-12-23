@@ -4,6 +4,7 @@ BEFORE INSERT ON hire
 FOR EACH ROW BEGIN
 
 SET NEW.hire_date = now();
+SET NEW.last_modify_date = now();
 
 END;
 
@@ -16,4 +17,3 @@ SET NEW.last_modify_date = now();
 
 END;
 
--- add triger which set book available flat on true when return book

@@ -1,13 +1,11 @@
 package com.library.libraryapi.Controller;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.library.libraryapi.DAO.BookItemRepository;
 import com.library.libraryapi.DAO.CustomerRepository;
 import com.library.libraryapi.DAO.DictionaryItemRepository;
 import com.library.libraryapi.DAO.HireRepository;
 import com.library.libraryapi.Model.*;
-import com.library.libraryapi.Util.Adapter.ListAdapter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -175,9 +172,10 @@ public class HireController {
         Hire hire;
 
         for (int i = 0; i < user.getHireBooks().size(); i ++) {
-            if (user.getHireBooks().get(i).getBook().getId() == bookId) {
+            if (!user.getHireBooks().get(i).isDeleted() &&
+                    user.getHireBooks().get(i).getBook().getId() == bookId) {
                 hire = user.getHireBooks().get(i);
-                deleteHire(hire, user);
+                deleteHire(hire, user , user.getHireBooks().get(i).getBook());
             }
         }
 
@@ -210,6 +208,7 @@ public class HireController {
 
         for (Hire hire : customer.getHireBooks()) {
             if (hire.getBook().getId() == bookId &&
+                    !hire.isDeleted() &&
                     hire.getAvailableExtension() > 0 &&
                     hire.getReturnDate().after(new Date())) {
 
@@ -254,10 +253,14 @@ public class HireController {
     }
 
     @Transactional
-    protected void deleteHire(Hire hire, Customer customer) {
+    protected void deleteHire(Hire hire,Customer customer, BookItem bookItem) {
 
+        bookItem.setAvailable(true);
         customer.getHireBooks().remove(hire);
+        hire.setDeleted(true);
+
+        hireRepository.save(hire);
         customerRepository.save(customer);
-        hireRepository.delete(hire);
+        bookItemRepository.save(bookItem);
     }
 }
