@@ -17,6 +17,21 @@ SET NEW.last_modify_date = now();
 
 END;
 
+-- create temporary table and insert id of last deleted hire
+CREATE TRIGGER hideDelete
+AFTER UPDATE ON hire
+  FOR EACH ROW BEGIN
+
+  IF NEW.is_deleted = TRUE THEN
+    BEGIN
+      CREATE TEMPORARY TABLE deletedHire(hireId LONG);
+      INSERT INTO deletedHire(hireId) VALUE (NEW.id);
+    END;
+  END IF;
+END;
+
+DROP TRIGGER hideDelete;
+
 -- Add test book if doesnt exist and items for them
 CREATE PROCEDURE addBooks()
 BEGIN
@@ -24,6 +39,8 @@ BEGIN
   SET @title = "Title2";
   SET @author = "Autor2";
   SET MAX_SP_RECURSION_DEPTH = 255;
+
+  START TRANSACTION;
 
   IF EXISTS (SELECT * FROM book WHERE title = @title AND author = @author) THEN
     BEGIN
@@ -55,6 +72,8 @@ BEGIN
 
     END;
   END IF;
+
+  COMMIT;
 END;
 
 CALL addBooks();
