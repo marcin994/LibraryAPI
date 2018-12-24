@@ -17,7 +17,7 @@ SET NEW.last_modify_date = now();
 
 END;
 
--- Add test book if doesnt exist and items for them 
+-- Add test book if doesnt exist and items for them
 CREATE PROCEDURE addBooks()
 BEGIN
 
@@ -60,3 +60,5 @@ END;
 CALL addBooks();
 
 -- View presenting employees of library
+create OR REPLACE VIEW employee AS
+SELECT * FROM customer WHERE account_type IN (SELECT code FROM dictionary_item WHERE domain = "ROLE" AND code != "USER");
