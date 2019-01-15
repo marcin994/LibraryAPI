@@ -48,6 +48,12 @@ BEGIN
       DECLARE i INT DEFAULT 1;
       WHILE  i <= 15 DO
         SELECT next_val FROM hibernate_sequence LIMIT 1 INTO @sequence;
+
+        DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+        ROLLBACK;
+        SELECT 'Insert Error';
+        END;
         INSERT INTO book_item(id, author, is_available, is_deleted, isbn, pages, publishing, publishing_year, title, image_id)
           VALUE (@sequence, @author, TRUE, FALSE, i, 0, "Wydawniictwo", '20190101', @title, NULL);
 
@@ -81,3 +87,5 @@ CALL addBooks();
 -- View presenting employees of library
 create OR REPLACE VIEW employee AS
 SELECT * FROM customer WHERE account_type IN (SELECT code FROM dictionary_item WHERE domain = "ROLE" AND code != "USER");
+
+
