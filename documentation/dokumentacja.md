@@ -48,3 +48,29 @@
 
 <h4>Diagram encji</h4>
 <img src="https://raw.githubusercontent.com/be1zi/LibraryAPI/master/documentation/diagramEncjii.png" alt="Diagram Encji">
+
+<h4>Kolejne kroki utworzenia bazy przy użyciu replikacji:</h4>
+1.Po restarcie serwera MySQL, logujemy się do niego (mysql -u root -p) i wydajemy następujące zapytanie sql : "mysql> SHOW MASTER STATUS\G". Powinno ono pokazać nam status serwera master.
+2.Teraz należy stworzyć użytkownika, który będzie odpowiadał za autoryzację serwerów zapasowych. 
+   W tym celu wydajemy zapytanie SQL: 
+    CREATE USER 'repuser'@'%' IDENTIFIED BY 'haslo';
+     GRANT REPLICATION SLAVE ON *.* TO 'repuser'@'%' IDENTIFIED BY 'haslo';
+3.Następnym krokiem jest skonfigurowanie serwera slave. Najczęściej jest to plik /etc/my.cnf. 
+  Powinny znaleźć się w nim takie opcje jak poniżej : 
+    server-id=2
+    master-host=192.168.0.164
+    master-user=repuser
+    master-password=haslo
+    master-connect-retry=30 
+4.Podłączamy się klientem do serwera i wydajemy polecenie, które załaduje pierwszą porcję danych z serwera głównego a następnie zatrzyma   replikację :
+    mysql> LOAD DATA FROM MASTER;
+    mysql> SLAVE STOP;
+5.Kolejnym krokiem jest ustawienie parametrów replikacji. Wydajemy zapytanie SQL:
+    CHANGE MASTER TO
+    MASTER_HOST='192.168.0.164',
+    MASTER_LOG_FILE='mysql-bin.000003',
+    MASTER_LOG_POS=1274;
+Wartości MASTER_LOG_FILE oraz MASTER_LOG_POS pobieramy z polecenia SHOW MASTER STATUS wydanego po stronie serwera głównego. 
+6.Na koniec pozostaje nam włączyć replikację oraz sprawdzić jej status.
+    mysql> START SLAVE;
+    mysql> SHOW SLAVE STATUS\G;
