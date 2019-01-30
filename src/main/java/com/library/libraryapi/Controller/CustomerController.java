@@ -52,7 +52,7 @@ public class CustomerController {
         }
 
         Customer customer = customerRepository.findByLoginAndPassword(user.getLogin(), user.getPassword());
-        
+
         if (customer == null) {
 
             if (customerRepository.findByLogin(user.getLogin()) != null) {

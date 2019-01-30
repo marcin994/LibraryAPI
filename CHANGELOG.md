@@ -1,5 +1,9 @@
 # Change log
 
+## v.1.0.1 30.01.2019
+**Changed:**
+- Migrate from MySql to MongoDB
+
 ## v0.7.4 23.12.2018
 **Changed:**
 - isDeleted flag field in hire model instead remove row from db when dont needed

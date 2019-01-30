@@ -1,6 +1,9 @@
 # LibraryAPI
 
-**Version 0.7.4** - [Change log](CHANGELOG.md)
+**Version 0.7.4: using MySql** <br /> 
+**Version 1.0.1: using MongoDB** <br />
+<br />
+[Change log](CHANGELOG.md)
 
 ##### PL
 Projekt API przeznaczony do obsługi wykorzystania zasobów bibliotecznych. 
