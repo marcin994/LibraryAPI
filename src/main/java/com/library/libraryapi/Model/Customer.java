@@ -1,17 +1,19 @@
 package com.library.libraryapi.Model;
 
-import javax.persistence.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Document
 public class Customer {
 
     @Id
-    @GeneratedValue
     @NotNull
-    private long id;
+    private String id;
 
     @NotNull
     private String login;
@@ -28,17 +30,15 @@ public class Customer {
     private String email;
     private boolean isDeleted;
 
-    @OneToOne
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY)
     private List<Hire> hireBooks;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

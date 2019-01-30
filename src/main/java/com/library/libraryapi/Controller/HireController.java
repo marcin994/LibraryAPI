@@ -52,7 +52,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
         }
 
-        Optional<Customer> userOptional = customerRepository.findById(me);
+        Optional<Customer> userOptional = customerRepository.findById(""+me);
 
         Customer user = new Customer();
         user.setLogin(userOptional.map(Customer::getLogin).orElse(null));
@@ -72,7 +72,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" BookId is required"));
         }
 
-        Optional<BookItem> bookItemOptional = bookItemRepository.findById(book);
+        Optional<BookItem> bookItemOptional = bookItemRepository.findById(""+book);
 
         BookItem bookItem = new BookItem();
         bookItem.setId(bookItemOptional.map(BookItem::getId).orElse(null));
@@ -115,7 +115,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
         }
 
-        Optional<Customer> optionalCustomer = customerRepository.findById(me);
+        Optional<Customer> optionalCustomer = customerRepository.findById(""+me);
 
         if (optionalCustomer == null) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
@@ -146,7 +146,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
         }
 
-        Optional<Customer> userOptional = customerRepository.findById(me);
+        Optional<Customer> userOptional = customerRepository.findById(""+me);
         Customer librarian = new Customer();
         librarian.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
         librarian.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
@@ -159,7 +159,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account is deleted"));
         }
 
-        Optional<Customer> customer = customerRepository.findById(userId);
+        Optional<Customer> customer = customerRepository.findById(""+userId);
         Customer user = new Customer();
         user.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
         user.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
@@ -173,7 +173,7 @@ public class HireController {
 
         for (int i = 0; i < user.getHireBooks().size(); i ++) {
             if (!user.getHireBooks().get(i).isDeleted() &&
-                    user.getHireBooks().get(i).getBook().getId() == bookId) {
+                    user.getHireBooks().get(i).getBook().getId().equals(""+bookId)) {
                 hire = user.getHireBooks().get(i);
                 deleteHire(hire, user , user.getHireBooks().get(i).getBook());
             }
@@ -190,7 +190,7 @@ public class HireController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" user id cant be empty"));
         }
 
-        Optional<Customer> optionalCustomer = customerRepository.findById(me);
+        Optional<Customer> optionalCustomer = customerRepository.findById(""+me);
 
         if (optionalCustomer == null) {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Account doesnt exist"));
@@ -207,7 +207,7 @@ public class HireController {
         }
 
         for (Hire hire : customer.getHireBooks()) {
-            if (hire.getBook().getId() == bookId &&
+            if (hire.getBook().getId().equals(""+bookId) &&
                     !hire.isDeleted() &&
                     hire.getAvailableExtension() > 0 &&
                     hire.getReturnDate().after(new Date())) {

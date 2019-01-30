@@ -1,26 +1,25 @@
 package com.library.libraryapi.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Document
 public class File {
 
     @Id
-    @GeneratedValue
     @NotNull
-    private long id;
+    private String id;
 
     @NotNull
     private byte[] file;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

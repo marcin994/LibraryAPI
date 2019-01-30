@@ -34,13 +34,13 @@ public class FileController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Empty id"));
         }
 
-        file = fileRepository.findById(id);
+        file = fileRepository.findById(""+id);
 
         File f = new File();
         f.setId(file.map(File::getId).orElse(null));
         f.setFile(file.map(File::getFile).orElse(null));
 
-        if (f.getId() == 0 ) {
+        if (f.getId().equals("0") ) {
             return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
         }
 

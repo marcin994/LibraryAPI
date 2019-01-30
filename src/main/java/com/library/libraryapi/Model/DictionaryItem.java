@@ -1,18 +1,17 @@
 package com.library.libraryapi.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 
-@Entity
+
+@Document
 public class DictionaryItem {
 
     @Id
-    @GeneratedValue
     @NotNull
-    private long id;
+    private String id;
 
     @NotNull
     private String name;
@@ -26,11 +25,11 @@ public class DictionaryItem {
     @NotNull
     private String value;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

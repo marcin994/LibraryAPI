@@ -52,7 +52,7 @@ public class CustomerController {
         }
 
         Customer customer = customerRepository.findByLoginAndPassword(user.getLogin(), user.getPassword());
-
+        
         if (customer == null) {
 
             if (customerRepository.findByLogin(user.getLogin()) != null) {
@@ -123,7 +123,7 @@ public class CustomerController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" Id account to remove is required"));
         }
 
-        Optional<Customer> userOptional = customerRepository.findById(Long.parseLong(meId));
+        Optional<Customer> userOptional = customerRepository.findById(meId);
         Customer user = new Customer();
         user.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
         user.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
@@ -136,7 +136,7 @@ public class CustomerController {
             return new ResponseEntity<>(null, headers, HttpStatus.valueOf(" This account was deleted"));
         }
 
-        userOptional = customerRepository.findById(Long.parseLong(userid));
+        userOptional = customerRepository.findById(userid);
         Customer userToDelete = new Customer();
         userToDelete.setLogin(userOptional.map(Customer::getLogin).orElse(null));
 

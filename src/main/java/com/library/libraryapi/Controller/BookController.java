@@ -146,7 +146,7 @@ public class BookController {
             return false;
         }
 
-        Optional<Customer> userOptional = customerRepository.findById(Long.parseLong(id));
+        Optional<Customer> userOptional = customerRepository.findById(id);
         Customer user = new Customer();
         user.setAccountType(userOptional.map(Customer::getAccountType).orElse(null));
         user.setDeleted(userOptional.map(Customer::isDeleted).orElse(false));
